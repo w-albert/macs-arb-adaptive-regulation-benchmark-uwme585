@@ -19,7 +19,7 @@ SW_ONE_SIMU_TEST            = 1; % test a single frequency by default
 SW_DIST_ON                  = 1; % default turn on const or step change disturbance frequency
 SW_CHIRP_DIST               = 0; % default turn off chirp disturbance
 SW_TUNE                     = 0;
-SW_BASELINE_CONTROL_SYS     = 0; % check the baseline system
+SW_BASELINE_CONTROL_SYS     = 1; % check the baseline system
 SW_ADDITIONAL_PLOT          = 0;
 SW_STEADY_STATE_CONTROL_SYS = 0;
 Fs=800;     Ts=1/Fs;        Te=Ts;
@@ -172,15 +172,15 @@ if SW_BASELINE_CONTROL_SYS
     figure, bodeplot(S_func,bode_opt)
     figure, bodeplot(tf(B,A,Ts,'variable','z^-1'),bode_opt)
 
-    L       = length(bruitbench);
-    NFFT    = 2^nextpow2(L);
-    [spec_bruitbench.f,spec_bruitbench.amp] =...
-        spectre_psd_rms(bruitbench,Fs,NFFT);
-    figure;
-    plot(spec_bruitbench.f,spec_bruitbench.amp)
-    xlabel('Frequency [Hz]')
-    ylabel('dB [Vrms]')
-    title('Spectral density of the measurement noise')
+%     L       = length(bruitbench);
+%     NFFT    = 2^nextpow2(L);
+%     [spec_bruitbench.f,spec_bruitbench.amp] =...
+%         spectre_psd_rms(bruitbench,Fs,NFFT);
+%     figure;
+%     plot(spec_bruitbench.f,spec_bruitbench.amp)
+%     xlabel('Frequency [Hz]')
+%     ylabel('dB [Vrms]')
+%     title('Spectral density of the measurement noise')
 end
 
 simuName    = 'simulator_1bd_submit';
@@ -563,7 +563,7 @@ elseif FLAG_DIST_FREQ == FLAG_CHIRP_DIST
                     num2str(chirp_dist.freq2_seq(ii)),...
                     'Hz_closedLoop'];
             end
-            %% open simulinnk
+            %% open simulink
             sim(simuName)
             
             data_chirp_freq.initial_freq(ii,:) = chirp_dist.para1';
